@@ -29,6 +29,13 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Dropdown
                     </a>
+                    <li class="nav-item">
+                        {%if request.user.is_authenticated%}
+                        <a href="{% url 'userauths:userlogout'%}">Sign-Out</a>
+                        {% else %}
+                        <a href="{%url 'userauths:userlogin'%}">Sign-in</a>
+                        {% endif %}
+                    </li>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item" href="#">Action</a></li>
                       <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -47,23 +54,34 @@
               </div>
             </div>
           </nav>
-          {% for p in products %}
-          <div class="card" style="width: 18rem;">
-            <img src="{{p.image.url}}" class="card-img-top" alt="...">
-            
-              <div class="card-body">
-                <h5 class="card-title">{{p.title}}</h5>
-                <p class="card-text">{{p.description}}</p>
-                <p class="card-text">{{p.price}}</p>
-                <p class="card-text">{{p.old_price}}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+          <div class="container">
+            {% for p in products %}
+              {% if forloop.counter0|divisibleby:4 %}
+                </div>
+                <div class="row">
+              {% endif %}
+              <span>-{{p.discount|floatformat}}%</span>
+              <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <img src="{{ p.image.url }}" alt="">
+                    <p class="card-title">{{p.category.title}}</p>
+                    <h5 class="card-title">{{ p.title }}</h5>
+                    <div class="product-price">
+                      <span>{{p.price}}</span><br>
+                      <span class="old-price"><s>{{p.old_price}}</s></span>
+                    </div>
+                    {% comment %} <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> {% endcomment %}
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
               </div>
-            </div>
+              {% if forloop.last %}
+                </div>
+              {% endif %}
             {% endfor %}
-    {%if request.user.is_authenticated%}
-    <a href="{% url 'userauths:userlogout'%}">Sign-Out</a>
-    {% else %}
-    <a href="{%url 'userauths:userlogin'%}">Sign-in</a>
-    {% endif %}
+          </div>
+          
+
 </body>
 </html>
