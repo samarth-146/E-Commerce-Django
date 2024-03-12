@@ -23,7 +23,7 @@ def userregister(req):
     else:
         form=signup()
 
-    return render(req,'core/signup.html',{'form':form})
+    return render(req,'core/newsignup.html',{'form':form})
 
 def userlogin(req):
     if req.user.is_authenticated:
@@ -43,7 +43,7 @@ def userlogin(req):
             return redirect("core:index")
         else:
             messages.warning(req,"User doesn't exist")
-    return render(req,"core/sign-in.html")
+    return render(req,"core/newlogin.html")
 
 
 def userlogout(req):

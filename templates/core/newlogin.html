@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -223,7 +224,7 @@
     <input type="checkbox" id="flip">
     <div class="cover">
       <div class="front">
-        <img src="signin.jpeg" alt="ddd">
+        <img src="{% static 'signin.jpeg' %}" alt="ddd">
         
       </div>
       <div class="back">
@@ -235,20 +236,21 @@
       <div class="form-content">
         <div class="login-form">
           <div class="title">Login</div>
-          <form action="#">
+          <form action="" method="post">
+            {% csrf_token %}
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Enter your email" required>
+                <input type="text" required name="email">
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Enter your password" required>
+                <input type="password" required name="password">
               </div>
               <div class="button input-box">
                 <input type="submit" value="Submit">
               </div>
-              <div class="text sign-up-text">Don't have an account? <a href="newsignup.html">Signup now</a></div>
+              <div class="text sign-up-text">Don't have an account? <a href="{%url 'userauths:userregister'%}">Signup now</a></div>
             </div>
           </form>
         </div>

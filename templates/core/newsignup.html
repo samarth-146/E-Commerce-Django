@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -221,7 +222,7 @@
     <input type="checkbox" id="flip">
     <div class="cover">
       <div class="front">
-        <img src="signin.jpeg" alt="ddd">
+        <img src="{% static 'signin.jpeg' %}" alt="ddd">
         
       </div>
       <div class="back">
@@ -237,24 +238,27 @@
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="Enter your username" required>
+                {{form.username}}
               </div>
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Enter your email" required>
+                {{form.email}}
+                {% comment %} <input type="text" placeholder="Enter your email" required> {% endcomment %}
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Enter your password" required>
+                {{form.password1}}
+                {% comment %} <input type="password" placeholder="Enter your password" required> {% endcomment %}
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Confirm your password" required>
+                {{form.password2}}
+                {% comment %} <input type="password" placeholder="Confirm your password" required> {% endcomment %}
               </div>
               <div class="button input-box">
                 <input type="submit" value="Submit">
               </div>
-              <div class="text sign-up-text">Already have an account?  <a href="newlogin.html">login now</a></div>
+              <div class="text sign-up-text">Already have an account?  <a href="{%url 'userauths:userlogin'%}">login now</a></div>
             </div>
           </form>
         </div>

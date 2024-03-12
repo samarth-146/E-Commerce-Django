@@ -164,6 +164,9 @@ body {
 .account {
     font-weight: 900;
     font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
 }
 
 .return-order-container {
