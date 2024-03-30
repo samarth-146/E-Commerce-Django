@@ -11,6 +11,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E'zeekart - eCommerce Website</title>
   <style>
+    .dropdown-checkbox {
+      display: none;
+  }
+  
+  .dropdown-checkbox + .dropdown-label:before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #666;
+      margin-right: 8px;
+      vertical-align: middle;
+      cursor: pointer;
+  }
+  
+  .dropdown-checkbox:checked + .dropdown-label:before {
+      background-color: #333;
+  }
+  
+  .dropdown-label {
+      cursor: pointer;
+  }
+  
+  .dropdown-menu {
+      display: none;
+  }
+  
+  .dropdown-menu.show {
+      display: block;
+  }
+  
     .showcase-title{
       margin-top:50px;
     }
@@ -101,26 +132,35 @@
             </button>
           </div>
         </form>
-        <ul class="desktop-menu-category-list">
-          <!-- Other navbar items -->
-          <li class="menu-category dropdown">
-              <a href="#" class="menu-title dropdown-toggle">Price</a>
-              <div class="dropdown-menu">
-                  <a href="#" class="dropdown-item">Under $50</a>
-                  <a href="#" class="dropdown-item">$50 - $100</a>
-                  <a href="#" class="dropdown-item">Over $100</a>
-              </div>
-          </li>
-          <li class="menu-category dropdown">
-              <a href="#" class="menu-title dropdown-toggle">Categories</a>
-              <div class="dropdown-menu">
-                  <a href="#" class="dropdown-item">Electronics</a>
-                  <a href="#" class="dropdown-item">Clothing</a>
-                  <a href="#" class="dropdown-item">Accessories</a>
-              </div>
-          </li>
-      </ul>
+
         <div class="header-user-actions">
+          <form action="{% url "core:filtered_products" %}" method="GET">
+            <li class="menu-category dropdown" id="priceDropdown">
+              <a href="#" class="desktop-menu-category-list" style="color:black;">Filter</a>
+              <div class="dropdown-menu">
+                <input type="checkbox" id="under50" class="dropdown-checkbox">
+                <label for="under50" class="dropdown-label">Under $50</label>
+                <br>
+                <input type="checkbox" id="50to100" class="dropdown-checkbox">
+                <label for="50to100" class="dropdown-label">$50 - $100</label>
+                <br>
+                <input type="checkbox" id="over100" class="dropdown-checkbox">
+                <label for="over100" class="dropdown-label">Over $100</label>
+                <hr>
+                <input type="checkbox" id="electronics" class="dropdown-checkbox">
+                <label for="electronics" class="dropdown-label">Electronics</label>
+                <br>
+                <input type="checkbox" id="clothing" class="dropdown-checkbox">
+                <label for="clothing" class="dropdown-label">Clothing</label>
+                <br>
+                <input type="checkbox" id="accessories" class="dropdown-checkbox">
+                <label for="accessories" class="dropdown-label">Accessories</label>
+                <button type="submit">Apply Filter</button>
+            </div>
+          </li>
+          </form>
+
+
           <li class="menu-category">
             {%if request.user.is_authenticated%}
             <a href="{% url 'userauths:userlogout'%}" class="menu-title" style="color:black">Sign-Out</a>
@@ -128,6 +168,7 @@
             <a href="{%url 'userauths:userlogin'%}" class="menu-title" style="color:black">Sign-in</a>
             {% endif %}
           </li>
+
           <button class="action-btn">
             <ion-icon name="bag-handle-outline"></ion-icon>
             <span class="count">0</span>
@@ -387,6 +428,9 @@
                         <a href="{% url 'core:product_detail' product.pid %}" class="showcase-category">{{ product.category.title }}</a>
                         <a href="{% url 'core:product_detail' product.pid %}">
                             <h3 class="showcase-title" style="color:black;">{{ product.title }}</h3>
+                            <span class="showcase-title" style="color:black;">{{product.price}}</span>
+                            <span class="showcase-title" style="color:black;"><s>{{product.old_price}}</s></span>
+
                         </a>
                         <div class="showcase-rating">
                             <!-- Add your rating logic here -->
@@ -875,29 +919,31 @@
     });
 </script>
 
+
 <script>
-  // Add JavaScript to toggle the dropdown menu
-  document.addEventListener("DOMContentLoaded", function() {
-      var dropdownToggleList = document.querySelectorAll('.dropdown-toggle');
-
-      dropdownToggleList.forEach(function(dropdownToggle) {
-          dropdownToggle.addEventListener('click', function() {
-              var dropdownMenu = this.nextElementSibling;
-              dropdownMenu.classList.toggle('show');
-          });
+  // JavaScript code to toggle dropdown menu
+  document.addEventListener('DOMContentLoaded', function() {
+      const priceDropdown = document.getElementById('priceDropdown');
+      const categoriesDropdown = document.getElementById('categoriesDropdown');
+  
+      priceDropdown.addEventListener('click', function() {
+          toggleDropdownMenu(priceDropdown);
       });
-
-      // Close dropdown menu when clicking outside
-      window.addEventListener('click', function(event) {
-          dropdownToggleList.forEach(function(dropdownToggle) {
-              var dropdownMenu = dropdownToggle.nextElementSibling;
-              if (!dropdownToggle.contains(event.target)) {
-                  dropdownMenu.classList.remove('show');
-              }
-          });
+  
+      categoriesDropdown.addEventListener('click', function() {
+          toggleDropdownMenu(categoriesDropdown);
       });
+  
+      function toggleDropdownMenu(dropdown) {
+          const menu = dropdown.querySelector('.dropdown-menu');
+          if (menu.style.display === 'block') {
+              menu.style.display = 'none';
+          } else {
+              menu.style.display = 'block';
+          }
+      }
   });
-</script>
+  </script>
 
 
 </body>

@@ -79,7 +79,8 @@
               <h3 class="product-title">{{product.title}}</h3>
 
               <data class="product-price" >{{product.price}}</data><br>
-              <data class="product-price" ><s>{{product.old_price}}</s></data>
+              <data class="product-price" ><s>{{product.old_price}}</s></data><br>
+              <data class="product-price" >Discount:{{product.discount|floatformat:2}}%</data>
 
               <div class="rating-wrapper">
                 <ion-icon name="star"></ion-icon>
