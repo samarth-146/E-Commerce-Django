@@ -1,0 +1,951 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E'zeekart - eCommerce Website</title>
+  <style>
+    .dropdown-checkbox {
+      display: none;
+  }
+  
+  .dropdown-checkbox + .dropdown-label:before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #666;
+      margin-right: 8px;
+      vertical-align: middle;
+      cursor: pointer;
+  }
+  
+  .dropdown-checkbox:checked + .dropdown-label:before {
+      background-color: #333;
+  }
+  
+  .dropdown-label {
+      cursor: pointer;
+  }
+  
+  .dropdown-menu {
+      display: none;
+  }
+  
+  .dropdown-menu.show {
+      display: block;
+  }
+  
+    .showcase-title{
+      margin-top:50px;
+    }
+    .dropdown {
+      position: relative;
+  }
+  
+  .dropdown-toggle::after {
+      content: "\25BE"; /* Unicode character for down arrow */
+      margin-left: 5px;
+  }
+  
+  .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+  
+  .dropdown-menu.show {
+      display: block;
+  }
+  
+  .dropdown-item {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #333;
+  }
+  
+  .dropdown-item:hover {
+      background-color: #f0f0f0;
+  }
+  
+  </style>
+
+
+  <link rel="stylesheet" href="{% static 'style-prefix.css' %}">
+
+  <!--font awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="/media/images/Final_Logo.jpg" type="image/x-icon">
+
+  <!--
+    - custom css link
+  -->
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+
+  
+
+
+  <!--
+    - HEADER
+  -->
+
+  <header>
+    <div class="header-main">
+      <div class="container">
+        <a href="#" class="header-logo">
+          <img src="/media/images/Final_Logo.jpg" alt="E'zeekart's logo" width="100" height="100">
+        </a>
+        <form action="{% url "core:search" %}" method="GET">
+          <div class="header-search-container">
+            <input type="text" name="q" class="search-field" style="border:2px solid black; width:500px" >
+            <button class="search-btn" type="submit">
+              <ion-icon name="search-outline"></ion-icon>
+            </button>
+          </div>
+        </form>
+
+        <div class="header-user-actions">
+          <form action="{% url "core:filtered_products" %}" method="GET">
+            <li class="menu-category dropdown" id="priceDropdown">
+              <a href="#" class="desktop-menu-category-list" style="color:black;">Filter</a>
+              <div class="dropdown-menu">
+                <input type="checkbox" id="under50" class="dropdown-checkbox">
+                <label for="under50" class="dropdown-label">Under $50</label>
+                <br>
+                <input type="checkbox" id="50to100" class="dropdown-checkbox">
+                <label for="50to100" class="dropdown-label">$50 - $100</label>
+                <br>
+                <input type="checkbox" id="over100" class="dropdown-checkbox">
+                <label for="over100" class="dropdown-label">Over $100</label>
+                <hr>
+                <input type="checkbox" id="electronics" class="dropdown-checkbox">
+                <label for="electronics" class="dropdown-label">Electronics</label>
+                <br>
+                <input type="checkbox" id="clothing" class="dropdown-checkbox">
+                <label for="clothing" class="dropdown-label">Clothing</label>
+                <br>
+                <input type="checkbox" id="accessories" class="dropdown-checkbox">
+                <label for="accessories" class="dropdown-label">Accessories</label>
+                <button type="submit">Apply Filter</button>
+            </div>
+          </li>
+          </form>
+
+
+          <li class="menu-category">
+            {%if request.user.is_authenticated%}
+            <a href="{% url 'userauths:userlogout'%}" class="menu-title" style="color:black">Sign-Out</a>
+            {% else %}
+            <a href="{%url 'userauths:userlogin'%}" class="menu-title" style="color:black">Sign-in</a>
+            {% endif %}
+          </li>
+
+          <button class="action-btn">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="desktop-navigation-menu">
+
+      <div class="container">
+
+        <ul class="desktop-menu-category-list">
+          <li class="menu-category">
+            <a href="{% url "core:index" %}" class="menu-title">Home</a>
+          </li>
+          
+
+          <li class="menu-category">
+            <a href="#" class="menu-title">Categories</a>
+
+            <div class="dropdown-panel">
+
+              <ul class="dropdown-panel-list">
+
+                <li class="menu-title">
+                  <a href="#">Electronics</a>
+                </li>
+                {% for c in categories %}
+                {% if c.title == "Television" or c.title == "Wearable" %}
+
+                <li class="panel-list-item">
+                  <a href="{% url 'core:category_product_view' c.cid %}">{{c.title}}</a>
+                </li>
+                {%endif%}
+                {% endfor %}
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="/media/images/electronics-banner-1.jpg" alt="headphone collection" width="250"
+                      height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+              
+
+              
+
+              <ul class="dropdown-panel-list">
+                <li class="menu-title">
+                  <a href="#">Electronics</a>
+                </li>
+                {% for c in categories %}
+                {% if c.title == "Electronics" or c.title == "Mobile" %}
+                <li class="panel-list-item">
+                  <a href="{% url 'core:category_product_view' c.cid %}">{{c.title}}</a>
+                </li>
+                  <!-- Your code for handling Electronics or Mobile categories goes here -->
+                {% endif %}
+              {% endfor %}
+              
+
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="/media/images/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          
+
+          <li class="menu-category">
+            <a href="#footer" class="menu-title">Contact us</a>
+        </li>
+
+          <li class="menu-category">
+            <a href="{% url "core:product" %}" class="menu-title">Products</a>
+          </li>
+    
+
+        </ul>
+        
+
+      </div>
+
+    </nav>
+
+    
+
+    
+
+  </header>
+
+
+
+
+
+  <!--
+    - MAIN
+  -->
+
+  <main>
+
+    <!--
+      - BANNER
+    -->
+
+    <div class="banner">
+
+      <div class="container">
+
+        <div class="slider-container has-scrollbar">
+
+          <div class="slider-item">
+
+            <img src="/media/images/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
+
+            <div class="banner-content">
+
+              <p  style="color:rgb(255, 0, 208)" class="banner-subtitle">Trending item</p>
+
+              <h2 class="banner-title">DEll Inspiron</h2>
+
+              <p class="banner-text">
+                starting at RS <b>75,000</b>
+              </p>
+
+              <a href="#" class="banner-btn">Shop now</a>
+
+            </div>
+
+          </div>
+
+          <div class="slider-item">
+
+            <img src="media/images/banner-2.jpg" alt="modern sunglasses" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Trending accessories</p>
+
+              <h2 style="color:white" class="banner-title">Mice Gaming Mouse</h2>
+
+              <p  class="banner-text">
+                starting at RS <b>2,000</b>
+              </p>
+
+              <a href="#" class="banner-btn">Shop now</a>
+
+            </div>
+
+          </div>
+
+          <div class="slider-item">
+
+            <img src="media/images/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
+
+            <div class="banner-content">
+
+              <p style="color:rgb(230, 38, 38)" class="banner-subtitle">Massive Discount alert</p>
+
+              <h2 class="banner-title">Samsung  Galaxy S20 FE 5G</h2>
+
+              <p style="color:white" class="banner-text">
+                starting at RS <b>27,000</b>
+              </p>
+
+              <a href="#" class="banner-btn">Shop now</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    <!--
+      - CATEGORY
+    -->
+
+
+
+
+
+
+    <!--
+      - PRODUCT
+    -->
+
+    <div class="product-container">
+
+      <div class="container">
+
+
+        <!--
+          - SIDEBAR
+        -->
+
+        
+
+
+        <div class="product-box">
+
+          <!--
+            - PRODUCT MINIMAL
+          -->
+
+
+          <!--
+            - PRODUCT FEATURED
+          -->
+
+          
+
+
+          <!--
+            - PRODUCT GRID
+          -->
+
+          <div class="product-main" >
+            <h2 class="title">New Products</h2>
+            <div class="product-grid" >
+                {% for product in products %}
+                <div class="showcase">
+                    <div class="showcase-banner">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-img default" style="height:50%;">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-img hover">
+                        <div class="showcase-actions">
+                            <button class="btn-action">
+                                <ion-icon name="heart-outline"></ion-icon>
+                            </button>
+                            <button class="btn-action">
+                                <ion-icon name="eye-outline"></ion-icon>
+                            </button>
+                            <button class="btn-action">
+                                <ion-icon name="repeat-outline"></ion-icon>
+                            </button>
+                            <button class="btn-action">
+                                <ion-icon name="bag-add-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="showcase-content"> <!-- Change the background color here -->
+
+                        <a href="{% url 'core:product_detail' product.pid %}" class="showcase-category">{{ product.category.title }}</a>
+                        <a href="{% url 'core:product_detail' product.pid %}">
+                            <h3 class="showcase-title" style="color:black;">{{ product.title }}</h3>
+                            <span class="showcase-title" style="color:black;">{{product.price}}</span>
+                            <span class="showcase-title" style="color:black;"><s>{{product.old_price}}</s></span>
+
+                        </a>
+                        <div class="showcase-rating">
+                            <!-- Add your rating logic here -->
+                        </div>
+                        {% comment %} <div class="price-box">
+                            <p class="price">${{ product.price }}</p>
+                            {% if product.discounted_price %}
+                            <del>${{ product.discounted_price }}</del>
+                            {% endif %}
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        
+              
+
+              
+              
+
+              
+
+              
+
+              
+
+              
+
+
+              
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    <!--
+      - TESTIMONIALS, CTA & SERVICE
+    -->
+
+    <div>
+
+      <div class="container">
+
+        <div class="testimonials-box">
+
+          <!--
+            - TESTIMONIALS
+          -->
+
+          <div class="testimonial">
+
+            <h2 class="title">testimonial</h2>
+
+            <div class="testimonial-card">
+
+              <img src="/media/images/testimonial-1.jpg" alt="alan doe" class="testimonial-banner" width="80" height="80">
+
+              <p class="testimonial-name">Sora</p>
+
+              <p class="testimonial-title">CEO & Founder Invision</p>
+
+              <img src="/media/images/icons/quotes.svg" alt="quotation" class="quotation-img" width="26">
+
+              <p class="testimonial-desc">
+                Enjoy Easy shoping with E'zeekart
+                
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <!--
+            - CTA
+          -->
+
+          <div class="cta-container">
+
+            <img src="/media/images/cta-banner.jpg" alt="summer collection" class="cta-banner">
+
+            <a href="#" class="cta-content">
+
+              <p class="discount"> Min. 45% Discount</p>
+
+              <h2 class="cta-title">Refurbished Store</h2>
+
+              <!-- <p class="cta-text">Starting @ RS 600</p> -->
+
+              <button class="cta-btn">Shop now</button>
+
+            </a>
+
+          </div>
+
+
+
+          <!--
+            - SERVICE
+          -->
+
+          <div class="service">
+
+            <h2 class="title">Our Services</h2>
+
+            <div class="service-container">
+
+              <a href="#" class="service-item">
+
+                <div class="service-icon">
+                  <ion-icon name="boat-outline"></ion-icon>
+                </div>
+
+                <div class="service-content">
+
+                  <h3 class="service-title">Worldwide Delivery</h3>
+                  <p class="service-desc">For Order Over Rs. 10,000</p>
+
+                </div>
+
+              </a>
+
+              <a href="#" class="service-item">
+              
+                <div class="service-icon">
+                  <ion-icon name="rocket-outline"></ion-icon>
+                </div>
+              
+                <div class="service-content">
+              
+                  <h3 class="service-title">Next Day delivery</h3>
+                  <p class="service-desc">Gujrat Orders Only</p>
+              
+                </div>
+              
+              </a>
+
+              <a href="#" class="service-item">
+              
+                <div class="service-icon">
+                  <ion-icon name="call-outline"></ion-icon>
+                </div>
+              
+                <div class="service-content">
+              
+                  <h3 class="service-title">Best Online Support</h3>
+                  <p class="service-desc">Hours: 8AM - 11PM</p>
+              
+                </div>
+              
+              </a>
+
+              <a href="#" class="service-item">
+              
+                <div class="service-icon">
+                  <ion-icon name="arrow-undo-outline"></ion-icon>
+                </div>
+              
+                <div class="service-content">
+              
+                  <h3 class="service-title">Return Policy</h3>
+                  <p class="service-desc">Easy & Free Return</p>
+              
+                </div>
+              
+              </a>
+
+              <a href="#" class="service-item">
+              
+                <div class="service-icon">
+                  <ion-icon name="ticket-outline"></ion-icon>
+                </div>
+              
+                <div class="service-content">
+              
+                  <h3 class="service-title">15% money back</h3>
+                  <p class="service-desc">For Order Over Rs 20,000</p>
+              
+                </div>
+              
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    <!--
+      - BLOG
+    -->
+
+    
+
+  </main>
+
+
+
+
+
+  <!--
+    - FOOTER
+  -->
+
+  <footer id="footer">
+
+    <div class="footer-category">
+
+      <div class="container">
+
+        <h2 class="footer-category-title">Brand directory</h2>
+
+        <div class="footer-category-box">
+
+          <h3 class="category-box-title">Electronics :</h3>
+
+          <a href="#" class="footer-category-link">Desktop</a>
+          <a href="#" class="footer-category-link">Laptop</a>
+          <a href="#" class="footer-category-link">Camera</a>
+          <a href="#" class="footer-category-link">Tablet</a>
+          <a href="#" class="footer-category-link">Headphone</a>
+          <a href="#" class="footer-category-link">Smartphone</a>
+          <a href="#" class="footer-category-link">Smart TV</a>
+          <a href="#" class="footer-category-link">Keyboard</a>
+          <a href="#" class="footer-category-link">Mouse</a>
+          <a href="#" class="footer-category-link">Microphone</a>
+          
+
+        </div>
+
+        
+
+
+
+        
+
+      </div>
+
+    </div>
+
+    <div class="footer-nav">
+
+      <div class="container">
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Popular Categories</h2>
+          </li>
+
+          
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Electronic</a>
+          </li>
+
+
+        </ul>
+
+        <ul class="footer-nav-list">
+        
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Products</h2>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Prices drop</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">New products</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Best sales</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Contact us</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Sitemap</a>
+          </li>
+        
+        </ul>
+
+        <ul class="footer-nav-list">
+        
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Our Company</h2>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Delivery</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Legal Notice</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Terms and conditions</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">About us</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Secure payment</a>
+          </li>
+        
+        </ul>
+
+        <ul class="footer-nav-list">
+        
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Services</h2>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Prices drop</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">New products</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Best sales</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Contact us</a>
+          </li>
+        
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Sitemap</a>
+          </li>
+        
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Contact</h2>
+          </li>
+
+          <li class="footer-nav-item flex">
+            <div class="icon-box">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+
+            <address class="content">
+             Dharmsinh Desai University,
+             Nadiad
+
+            </address>
+          </li>
+
+          <li class="footer-nav-item flex">
+            <div class="icon-box">
+              <ion-icon name="call-outline"></ion-icon>
+            </div>
+
+            <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
+          </li>
+
+          <li class="footer-nav-item flex">
+            <div class="icon-box">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+
+            <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Follow Us</h2>
+          </li>
+
+          <li>
+            <ul class="social-link">
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="container">
+
+        <img src="/media/images/payment.png" alt="payment method" class="payment-img">
+
+        <p class="copyright">
+          Copyright &copy; <a href="#">E’zeekart</a> all rights reserved.
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+
+
+
+
+  <!--
+    - custom js link
+  -->
+  <!-- <script src="./assets/js/script.js"></script> -->
+
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    // Smooth scrolling when clicking on navbar links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const target = document.querySelector(this.getAttribute('href'));
+            target.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+
+<script>
+  // JavaScript code to toggle dropdown menu
+  document.addEventListener('DOMContentLoaded', function() {
+      const priceDropdown = document.getElementById('priceDropdown');
+      const categoriesDropdown = document.getElementById('categoriesDropdown');
+  
+      priceDropdown.addEventListener('click', function() {
+          toggleDropdownMenu(priceDropdown);
+      });
+  
+      categoriesDropdown.addEventListener('click', function() {
+          toggleDropdownMenu(categoriesDropdown);
+      });
+  
+      function toggleDropdownMenu(dropdown) {
+          const menu = dropdown.querySelector('.dropdown-menu');
+          if (menu.style.display === 'block') {
+              menu.style.display = 'none';
+          } else {
+              menu.style.display = 'block';
+          }
+      }
+  });
+  </script>
+
+
+</body>
+
+</html>

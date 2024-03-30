@@ -1,0 +1,150 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E'zeekart</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="Final Logo.jpg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+  <link rel="stylesheet" href="{% static 'product-details.css' %}">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body id="top">
+
+  <!-- 
+    - #HEADER
+  -->
+<div style="margin: 10px; padding: 20px; background:rgba(10, 1, 1, 0.089)">
+  <header style="width: 3%;">
+    <a href="index.html">Home</a>
+  </header>
+
+</div>
+
+
+
+
+  <main>
+    <article>
+
+     
+
+
+
+      <!-- 
+        - #PRODUCT DETAILS
+      -->
+
+      <section class="section product-details">
+        <div class="container">
+
+          <div class="wrapper">
+
+            <div class="product-details-img">
+
+              <figure class="product-display">
+                <img src="{{product.image.url}}" width="700" height="700" loading="lazy"
+                  alt="dell" class="w-100" data-product-display>
+              </figure>
+
+             
+
+            </div>
+
+            <div class="product-details-content">
+
+              <h3 class="product-title">{{product.title}}</h3>
+
+              <data class="product-price" >{{product.price}}</data><br>
+              <data class="product-price" ><s>{{product.old_price}}</s></data><br>
+              <data class="product-price" >Discount:{{product.discount|floatformat:2}}%</data>
+
+              <div class="rating-wrapper">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+              </div>
+
+              <p class="product-text">
+                {{product.description}}
+              </p>
+
+              <br>
+
+              <div class="product-qty">
+                <input type="number" name="quantity" value="1" min="1" max="50" class="product-qty-input">
+
+                <button class="btn btn-primary product-qty-btn">Add To Cart</button>
+              </div>
+              <br>
+            </div>
+
+          </div>
+
+          <h4 class="description-title">Descripton :</h4>
+
+          <p class="description-text">
+
+            {{product.specifications}}
+          </p>
+
+          <h4 class="description-title">Reviews :</h4>
+
+          <p class="description-text">
+            Very nice built Quality
+          </p>
+
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+
+
+
+
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <!-- <script src="./assets/js/script.js"></script> -->
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

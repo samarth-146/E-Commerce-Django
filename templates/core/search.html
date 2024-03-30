@@ -1,0 +1,218 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E'zeekart - eCommerce Website</title>
+
+
+  <link rel="stylesheet" href="{% static 'style-prefix.css' %}">
+
+  <!--font awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="/media/images/logo/Final_Logo.jpg" type="image/x-icon">
+
+  <!--
+    - custom css link
+  -->
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+
+  
+
+
+  <!--
+    - HEADER
+  -->
+
+  <header>
+    <div class="header-main">
+      <div class="container">
+        <a href="#" class="header-logo">
+          <img src="/media/images/Final_Logo.jpg" alt="E'zeekart's logo" width="100" height="100">
+        </a>
+        <form action="{% url "core:search" %}" method="GET">
+            <div class="header-search-container">
+              <input type="text" name="q" class="search-field" style="border:2px solid black; width:500px" >
+              <button class="search-btn" type="submit">
+                <ion-icon name="search-outline"></ion-icon>
+              </button>
+            </div>
+          </form>
+        <div class="header-user-actions">
+          {%if request.user.is_authenticated%}
+          <a href="{% url 'userauths:userlogout'%}" class="account" style="color:black">Sign-Out</a>
+          {% else %}
+          <a href="{%url 'userauths:userlogin'%}" class="account" style="color:black">Sign-in</a>
+          {% endif %}
+          <button class="action-btn">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="desktop-navigation-menu">
+
+      <div class="container">
+
+        <ul class="desktop-menu-category-list">
+
+            <li class="menu-category">
+                <a href="{% url "core:index" %}" class="menu-title">Home</a>
+              </li>
+
+          <li class="menu-category">
+            <a href="#" class="menu-title">Categories</a>
+
+            <div class="dropdown-panel">
+
+              <ul class="dropdown-panel-list">
+
+                <li class="menu-title">
+                  <a href="#">Electronics</a>
+                </li>
+                {% for c in categories %}
+                {% if c.title == "Television" or c.title == "Wearable" %}
+
+                <li class="panel-list-item">
+                  <a href="{% url 'core:category_product_view' c.cid %}">{{c.title}}</a>
+                </li>
+                {%endif%}
+                {% endfor %}
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="/media/images/electronics-banner-1.jpg" alt="headphone collection" width="250"
+                      height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+              
+
+              
+
+              <ul class="dropdown-panel-list">
+                <li class="menu-title">
+                  <a href="#">Electronics</a>
+                </li>
+                {% for c in categories %}
+                {% if c.title == "Electronics" or c.title == "Mobile" %}
+                <li class="panel-list-item">
+                  <a href="{% url 'core:category_product_view' c.cid %}">{{c.title}}</a>
+                </li>
+                  <!-- Your code for handling Electronics or Mobile categories goes here -->
+                {% endif %}
+              {% endfor %}
+              
+
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="/media/images/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <li class="menu-category">
+            <a href="#" class="menu-title">Contact us</a>
+          </li>
+
+          <li class="menu-category">
+            <a href="{% url "core:product" %}" class="menu-title">Products</a>
+          </li>
+
+          
+          
+
+         
+
+          
+
+
+        </ul>
+
+      </div>
+
+    </nav>
+
+    
+
+    
+
+  </header>
+
+  <div class="product-main">
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="showcase">
+            <div class="showcase-banner">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-img default" style="height:50%;">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-img hover">
+                {% comment %} <p class="showcase-badge">{{ product.discount }}</p> {% endcomment %}
+                <div class="showcase-actions">
+                    <button class="btn-action">
+                        <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                        <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                        <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                        <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="showcase-content">
+                <a href="{% url 'core:product_detail' product.pid %}" class="showcase-category">{{ product.category.title }}</a>
+                <a href="{% url 'core:product_detail' product.pid %}">
+                    <h3 class="showcase-title" style="color:black;">{{ product.title }}</h3>
+                </a>
+                <div class="showcase-rating">
+                    <!-- Add your rating logic here -->
+                </div>
+                {% comment %} <div class="price-box">
+                    <p class="price">${{ product.price }}</p>
+                    {% if product.discounted_price %}
+                    <del>${{ product.discounted_price }}</del>
+                    {% endif %}
+                </div> {% endcomment %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
