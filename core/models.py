@@ -105,7 +105,11 @@ class Product_Review(models.Model):
     review_stars=models.IntegerField(choices=RATING)
 
     def __str__(self):
-        return self.product.title
+        if self.product:
+            return self.product.title
+        else:
+            return "Product Review (No Product)"
+
 
 class Wishlist(models.Model):
     user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)

@@ -234,7 +234,8 @@
       <div class="form-content">
         <div class="signup-form">
           <div class="title">Signup</div>
-          <form action="#">
+          <form action="" method="post">
+            {% csrf_token %}
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-user"></i>

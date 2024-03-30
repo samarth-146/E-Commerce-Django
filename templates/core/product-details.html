@@ -1,3 +1,7 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,8 +19,8 @@
   <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="main.css">
-  <link rel="stylesheet" href="product-details.css">
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+  <link rel="stylesheet" href="{% static 'product-details.css' %}">
 
   <!-- 
     - google font link
@@ -62,7 +66,7 @@
             <div class="product-details-img">
 
               <figure class="product-display">
-                <img src="product-details-1.png" width="700" height="700" loading="lazy"
+                <img src="{{product.image.url}}" width="700" height="700" loading="lazy"
                   alt="dell" class="w-100" data-product-display>
               </figure>
 
@@ -72,9 +76,10 @@
 
             <div class="product-details-content">
 
-              <h3 class="product-title">Dell Inspiron 5630 13th Gen Laptop</h3>
+              <h3 class="product-title">{{product.title}}</h3>
 
-              <data class="product-price" >₹74,999</data>
+              <data class="product-price" >{{product.price}}</data><br>
+              <data class="product-price" ><s>{{product.old_price}}</s></data>
 
               <div class="rating-wrapper">
                 <ion-icon name="star"></ion-icon>
@@ -85,9 +90,7 @@
               </div>
 
               <p class="product-text">
-                Dell Inspiron 5630 13th Gen Laptop,
-                 Intel Core i5-1340P Processor/16Gb LPDDR5/512GB /16.0" (40.64cm) FHD+ WVA AG 250 nits/Backlit KB + 
-                 FPR/Windows 11+ MSO'21/McAfee 15 Months/Platinum Silver/1.85kg
+                {{product.description}}
               </p>
 
               <br>
@@ -105,14 +108,8 @@
           <h4 class="description-title">Descripton :</h4>
 
           <p class="description-text">
-            Processor: Intel Core i5-1340P (up to 4.60 GHz, 12MB, 12 Cores)
-            RAM: 16GB 4800MHz LPDDR5 Memory Onboard // Storage: 512GB SSD
-            Software: Pre-Loaded Windows 11 Home with Lifetime Validity | MS Office Home and Student 2021 with lifetime validity| McAfee Multi-Device Security 15-month subscription
-            Display: 16.0" FHD+ WVA AG with Comfort View Support 250 nits & Backlit Keyboard + Fingerprint Reader
-            Ports: HDMI 1.4*, (1) Intel Thunderbolt 4.0, (2) USB 3.2 Gen 1 Type-A, SD card reader, (1) Universal Audio Jack // WiFi & Bluetooth: Intel Wi-Fi 6E (6GHz) AX211 2x2 Bluetooth 5.2 Wireless Card
-            Features: Up-Firing Speakers -Send audio in your direction // Dell ComfortView & DC Dimming -Reduce harmful blue light emissions & optimize eye comfort // Connect Your Phone with Inspiron's Bluetooth Speaker -Stream content louder and clearer
-            Dolby Atmos Spatial Audio - Hear your content as it was meant to be heard
-            Aluminum Top Cover & Palmrest - Premium and durable look and feel
+
+            {{product.specifications}}
           </p>
 
           <h4 class="description-title">Reviews :</h4>
