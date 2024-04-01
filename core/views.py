@@ -1,5 +1,7 @@
 from django.shortcuts import render,get_object_or_404
-from core.models import Category,Product,Vendor,Product_Image,Product_Review,Wishlist,Address
+from core.models import Category,Product,Vendor,Product_Image,Product_Review,Wishlist,Address,Cart,CartItem
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 
 def index(req):
@@ -50,26 +52,32 @@ def search_product(req):
     }
     return render(req,"core/search.html",context)
 
-def filtered_products(request):
-    selected_categories = request.GET.getlist('category')
-    selected_price_ranges = request.GET.getlist('price_range')
-
-    filtered_products = Product.objects.all()
-
-    if selected_categories:
-        filtered_products = filtered_products.filter(category__in=selected_categories)
-    
-    if selected_price_ranges:
-        price_ranges = [price_range.split('-') for price_range in selected_price_ranges]
-        for price_range in price_ranges:
-            filtered_products = filtered_products.filter(price__gte=price_range[0], price__lte=price_range[1])
-
-    return render(request, 'core/filtered_products.html', {'filtered_products': filtered_products})
 
 def product_detail_view(req,pid):
     product = get_object_or_404(Product, pid=pid)
+
+    reviews=Product_Review.objects.filter(product=product)
+
     context={
-        "product":product
+        "product":product,
+        "reviews":reviews,
     }
     return render(req,"core/product-details.html",context)
+
+# views.py
+def add_cart(req, pid):
+    product = Product.objects.get(pid=pid)
+    user =req.user
+    cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
+    cart_items = CartItem.objects.create(cart=cart, product=product)
+    return HttpResponseRedirect(req.META.get('HTTP_REFERER'))
+
+@login_required
+def view_cart(req):
+    cartItem=CartItem.objects.all()
+    context={
+        "cartItem":cartItem
+    }
+    return render(req,'core/view_cart.html',context)
+
 # Create your views here.

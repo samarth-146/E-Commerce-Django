@@ -32,17 +32,17 @@ def userlogin(req):
     if req.method=='POST':
         email=req.POST.get('email')
         password=req.POST.get('password')
-        try:
-            user=User.objects.get(email=email)
-        except:
-            messages.warning(req,f"Email doesn't exist")
+        # try:
+        #     user=User.objects.get(email=email)
+        # except:
+        #     messages.warning(req,f"Email doesn't exist")
         user=authenticate(req,email=email,password=password)
         if user is not None:
             login(req,user)
             messages.success(req,"You are logged in")
             return redirect("core:index")
         else:
-            messages.warning(req,"Incorrect Password")
+            messages.warning(req,"Incorrect Email or Password")
     return render(req,"core/newlogin.html")
 
 
