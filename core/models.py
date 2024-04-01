@@ -76,24 +76,19 @@ class Product(models.Model):
 class Product_Image(models.Model):
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
     image=models.ImageField(upload_to="product-image")
-
-
-
-
-#Remaining
     
 
-# class OrderCart(models.Model):
-#     user=models.ForeignKey(User,on_delete=models.CASCADE)
-#     price=models.DecimalField(max_digits=9999999,decimal_places=2,default=100)
-#     order_date=models.DateTimeField(auto_now_add=True)
-#     payment_status=models.BooleanField(default=False)
-#     order_status=models.CharField(choices=ORDER_STATUS,max_length=20)
+class Cart(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    is_paid=models.BooleanField(default=False)
 
-# class OrderCartItem(models.Model):
-#     order=models.ForeignKey(OrderCart,on_delete=models.CASCADE)
-#     quantity=models.IntegerField(default=0)
-#     price=models.DecimalField(max_digits=9999999,decimal_places=2,default=100)
+class CartItem(models.Model):
+    cart=models.ForeignKey(Cart,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True)
+
+    def __str__(self):
+        return self.product.title
+
 
 
 

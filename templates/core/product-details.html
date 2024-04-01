@@ -82,13 +82,9 @@
               <data class="product-price" ><s>{{product.old_price}}</s></data><br>
               <data class="product-price" >Discount:{{product.discount|floatformat:2}}%</data>
 
-              <div class="rating-wrapper">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-              </div>
+
+            
+            
 
               <p class="product-text">
                 {{product.description}}
@@ -99,7 +95,8 @@
               <div class="product-qty">
                 <input type="number" name="quantity" value="1" min="1" max="50" class="product-qty-input">
 
-                <button class="btn btn-primary product-qty-btn">Add To Cart</button>
+                {% comment %} <button class="btn btn-primary product-qty-btn">Add To Cart</button> {% endcomment %}
+                <a href="{% url 'core:add_cart' product.pid %}" class="btn btn-primary product-qty-btn">Add To Cart</a>
               </div>
               <br>
             </div>
@@ -114,10 +111,12 @@
           </p>
 
           <h4 class="description-title">Reviews :</h4>
-
+          {% for r in reviews %}
           <p class="description-text">
-            Very nice built Quality
+                <h3>{{r.user.username}}</h3><br>
+                <span>{{r.review_description}}</span>
           </p>
+          {% endfor %}
 
         </div>
       </section>

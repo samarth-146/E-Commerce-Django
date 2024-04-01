@@ -112,7 +112,13 @@
 
 
   
-
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
 
   <!--
     - HEADER
@@ -134,31 +140,6 @@
         </form>
 
         <div class="header-user-actions">
-          <form action="{% url "core:filtered_products" %}" method="GET">
-            <li class="menu-category dropdown" id="priceDropdown">
-              <a href="#" class="desktop-menu-category-list" style="color:black;">Filter</a>
-              <div class="dropdown-menu">
-                <input type="checkbox" id="under50" class="dropdown-checkbox">
-                <label for="under50" class="dropdown-label">Under $50</label>
-                <br>
-                <input type="checkbox" id="50to100" class="dropdown-checkbox">
-                <label for="50to100" class="dropdown-label">$50 - $100</label>
-                <br>
-                <input type="checkbox" id="over100" class="dropdown-checkbox">
-                <label for="over100" class="dropdown-label">Over $100</label>
-                <hr>
-                <input type="checkbox" id="electronics" class="dropdown-checkbox">
-                <label for="electronics" class="dropdown-label">Electronics</label>
-                <br>
-                <input type="checkbox" id="clothing" class="dropdown-checkbox">
-                <label for="clothing" class="dropdown-label">Clothing</label>
-                <br>
-                <input type="checkbox" id="accessories" class="dropdown-checkbox">
-                <label for="accessories" class="dropdown-label">Accessories</label>
-                <button type="submit">Apply Filter</button>
-            </div>
-          </li>
-          </form>
 
 
           <li class="menu-category">
@@ -170,8 +151,9 @@
           </li>
 
           <button class="action-btn">
-            <ion-icon name="bag-handle-outline"></ion-icon>
-            <span class="count">0</span>
+            <a href="{% url 'core:view_cart' %}" style="color:black;">
+              <ion-icon name="bag-handle-outline"></ion-icon>
+            </a>
           </button>
         </div>
       </div>
@@ -920,31 +902,8 @@
 </script>
 
 
-<script>
-  // JavaScript code to toggle dropdown menu
-  document.addEventListener('DOMContentLoaded', function() {
-      const priceDropdown = document.getElementById('priceDropdown');
-      const categoriesDropdown = document.getElementById('categoriesDropdown');
-  
-      priceDropdown.addEventListener('click', function() {
-          toggleDropdownMenu(priceDropdown);
-      });
-  
-      categoriesDropdown.addEventListener('click', function() {
-          toggleDropdownMenu(categoriesDropdown);
-      });
-  
-      function toggleDropdownMenu(dropdown) {
-          const menu = dropdown.querySelector('.dropdown-menu');
-          if (menu.style.display === 'block') {
-              menu.style.display = 'none';
-          } else {
-              menu.style.display = 'block';
-          }
-      }
-  });
-  </script>
 
+  
 
 </body>
 
