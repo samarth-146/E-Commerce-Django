@@ -30,24 +30,24 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
-class Vendor(models.Model):
-    vid=ShortUUIDField(unique=True,max_length=20,length=10,prefix='ven',alphabet="abcdefgh12345")
-    title=models.CharField(max_length=100)
-    description=models.TextField()
-    image=models.ImageField(upload_to=user_directory_path)
+# class Vendor(models.Model):
+#     vid=ShortUUIDField(unique=True,max_length=20,length=10,prefix='ven',alphabet="abcdefgh12345")
+#     title=models.CharField(max_length=100)
+#     description=models.TextField()
+#     image=models.ImageField(upload_to=user_directory_path)
 
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    contact_number=models.CharField(max_length=15,default=+911234567890)
-    address=models.CharField(max_length=100)
-    days_return=models.CharField(max_length=100)
-    rating=models.CharField(max_length=100,default=100)
-    resp_time=models.CharField(max_length=100)
-    warranty_period=models.CharField(max_length=100)
+#     user=models.ForeignKey(User,on_delete=models.CASCADE)
+#     contact_number=models.CharField(max_length=15,default=+911234567890)
+#     address=models.CharField(max_length=100)
+#     days_return=models.CharField(max_length=100)
+#     rating=models.CharField(max_length=100,default=100)
+#     resp_time=models.CharField(max_length=100)
+#     warranty_period=models.CharField(max_length=100)
 
-    def vendor_image(self):
-        return mark_safe('<img src="%s" width="50" height="50"/>'%self.image.url)
-    def __str__(self):
-        return self.title
+#     def vendor_image(self):
+#         return mark_safe('<img src="%s" width="50" height="50"/>'%self.image.url)
+#     def __str__(self):
+#         return self.title
 
 
 class Product(models.Model):
@@ -63,7 +63,7 @@ class Product(models.Model):
     in_stock=models.BooleanField(default=True)
     date=models.DateTimeField(auto_now_add=True)
     def discount(self):
-        discount_per=(self.price/self.old_price)*100
+        discount_per=100-(self.price/self.old_price)*100
         return discount_per
     # product_rates=models.CharField(choices=RATING,max_length=100)
 
@@ -105,21 +105,6 @@ class Product_Review(models.Model):
         else:
             return "Product Review (No Product)"
 
-
-class Wishlist(models.Model):
-    user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-    product=models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
-    wish_date=models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.product.title
-
-class Address(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    address=models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.address
 
 
 

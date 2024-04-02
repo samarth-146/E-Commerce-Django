@@ -180,7 +180,7 @@
                   <a href="#">Electronics</a>
                 </li>
                 {% for c in categories %}
-                {% if c.title == "Television" or c.title == "Wearable" %}
+                {% if c.title == "Television" or c.title == "Wearable" or c.title == "Headset" %}
 
                 <li class="panel-list-item">
                   <a href="{% url 'core:category_product_view' c.cid %}">{{c.title}}</a>

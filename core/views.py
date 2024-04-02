@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from core.models import Category,Product,Vendor,Product_Image,Product_Review,Wishlist,Address,Cart,CartItem
+from core.models import Category,Product,Product_Image,Product_Review,Cart,CartItem
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 

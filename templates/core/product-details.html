@@ -39,7 +39,7 @@
   -->
 <div style="margin: 10px; padding: 20px; background:rgba(10, 1, 1, 0.089)">
   <header style="width: 3%;">
-    <a href="index.html">Home</a>
+    <a href="{% url "core:index" %}">Home</a>
   </header>
 
 </div>
@@ -115,6 +115,17 @@
           <p class="description-text">
                 <h3>{{r.user.username}}</h3><br>
                 <span>{{r.review_description}}</span>
+                {% if r.review_stars == 4 %}
+                <span>★ ★ ★ ★ ☆</span>
+                {% elif r.review_stars == 1 %}
+                <span>★ ☆ ☆ ☆ ☆</span>
+                {% elif r.review_stars == 2 %}
+                <span>★ ★ ☆ ☆ ☆</span>
+                {% elif r.review_stars == 3 %}
+                <span>★ ★ ★ ☆ ☆</span>
+                {% else %}
+                <span>★ ★ ★ ★ ★</span>
+                {% endif %}
           </p>
           {% endfor %}
 
