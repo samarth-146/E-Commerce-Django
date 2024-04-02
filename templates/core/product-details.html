@@ -96,7 +96,9 @@
                 {% comment %} <input type="number" name="quantity" value="1" min="1" max="50" class="product-qty-input"> {% endcomment %}
 
                 {% comment %} <button class="btn btn-primary product-qty-btn">Add To Cart</button> {% endcomment %}
-                <a href="{% url 'core:add_cart' product.pid %}" class="btn btn-primary product-qty-btn">Add To Cart</a>
+                <a href="{% url 'core:add_cart' product.pid %}" class="btn btn-primary product-qty-btn">Add To Cart</a>&nbsp;
+                <a href="{% url 'core:order_now' pid=product.pid %}" class="btn btn-primary product-qty-btn">Order Now</a>
+
               </div>
               <br>
             </div>

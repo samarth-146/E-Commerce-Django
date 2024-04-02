@@ -197,6 +197,8 @@
                 <a href="{% url 'core:product_detail' product.pid %}" class="showcase-category">{{ product.category.title }}</a>
                 <a href="{% url 'core:product_detail' product.pid %}">
                     <h3 class="showcase-title" style="color:black;">{{ product.title }}</h3>
+                    <span class="showcase-title" style="color:black;">{{product.price}}</span>
+                    <span class="showcase-title" style="color:black;"><s>{{product.old_price}}</s></span>
                 </a>
                 <div class="showcase-rating">
                     <!-- Add your rating logic here -->

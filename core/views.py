@@ -1,5 +1,5 @@
-from django.shortcuts import render,get_object_or_404
-from core.models import Category,Product,Product_Image,Product_Review,Cart,CartItem
+from django.shortcuts import render,get_object_or_404,redirect
+from core.models import Category,Product,Product_Image,Product_Review,Cart,CartItem,Order
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
@@ -79,5 +79,14 @@ def view_cart(req):
         "cartItem":cartItem
     }
     return render(req,'core/view_cart.html',context)
+
+
+@login_required
+def order_now(request, pid):
+    product = Product.objects.get(pid=pid)
+    order = Order.objects.create(user=request.user, product=product)
+    # Optionally, you can add additional logic here such as sending confirmation emails, updating product inventory, etc.
+    return redirect('core:index')  # Redirect to the cart or any other page
+
 
 # Create your views here.

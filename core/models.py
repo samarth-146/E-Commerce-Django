@@ -111,5 +111,16 @@ class Product_Review(models.Model):
 
 
 
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    ordered_at = models.DateTimeField(auto_now_add=True)
+
+    # You can add more fields as needed, such as total_price, status, shipping_address, etc.
+
+    # def __str__(self):
+    #     return f"Order #{self.pk} - {self.product.title} ({self.quantity} units)"
+
+
 
 # Create your models here.
