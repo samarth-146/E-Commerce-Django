@@ -93,7 +93,7 @@
               <br>
 
               <div class="product-qty">
-                <input type="number" name="quantity" value="1" min="1" max="50" class="product-qty-input">
+                {% comment %} <input type="number" name="quantity" value="1" min="1" max="50" class="product-qty-input"> {% endcomment %}
 
                 {% comment %} <button class="btn btn-primary product-qty-btn">Add To Cart</button> {% endcomment %}
                 <a href="{% url 'core:add_cart' product.pid %}" class="btn btn-primary product-qty-btn">Add To Cart</a>

@@ -180,7 +180,7 @@
                   <a href="#">Electronics</a>
                 </li>
                 {% for c in categories %}
-                {% if c.title == "Television" or c.title == "Wearable" or c.title == "Headset" %}
+                {% if c.title == "Television" or c.title == "Wearable" or c.title == "Laptop" %}
 
                 <li class="panel-list-item">
                   <a href="{% url 'core:category_product_view' c.cid %}">{{c.title}}</a>
@@ -283,7 +283,7 @@
                 starting at RS <b>75,000</b>
               </p>
 
-              <a href="#" class="banner-btn">Shop now</a>
+              <a href="http://127.0.0.1:8000/product_detail/pro5421gace33/" class="banner-btn">Shop now</a>
 
             </div>
 
@@ -323,7 +323,7 @@
                 starting at RS <b>27,000</b>
               </p>
 
-              <a href="#" class="banner-btn">Shop now</a>
+              <a href="http://127.0.0.1:8000/product_detail/pro54def1d5f4/" class="banner-btn">Shop now</a>
 
             </div>
 
