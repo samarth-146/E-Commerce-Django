@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Category,Product,Vendor,Product_Image,Product_Review,Wishlist,Address
+from core.models import Category,Product,Vendor,Product_Image,Product_Review,Wishlist,Address,Cart,CartItem
 
 class ProductImage(admin.TabularInline):
     model=Product_Image
@@ -23,10 +23,20 @@ class AdminWishlist(admin.ModelAdmin):
 class AdminAddress(admin.ModelAdmin):
     list_display=['user','address']
 
+class AdminCartOrder(admin.ModelAdmin):
+    list_display=['user','is_paid']
+
+class AdminOrderCartItem(admin.ModelAdmin):
+    list_display=['cart','product']
+
+
+
 admin.site.register(Category,AdminCategory)
 admin.site.register(Product,AdminProduct)
 admin.site.register(Vendor,AdminVendor)
 admin.site.register(Product_Review,AdminReview)
 admin.site.register(Wishlist,AdminWishlist)
 admin.site.register(Address,AdminAddress)
+admin.site.register(Cart,AdminCartOrder)
+admin.site.register(CartItem,AdminOrderCartItem)
 # Register your models here.

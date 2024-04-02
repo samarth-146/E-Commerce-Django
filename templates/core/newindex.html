@@ -11,6 +11,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E'zeekart - eCommerce Website</title>
   <style>
+    .dropdown-checkbox {
+      display: none;
+  }
+  
+  .dropdown-checkbox + .dropdown-label:before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #666;
+      margin-right: 8px;
+      vertical-align: middle;
+      cursor: pointer;
+  }
+  
+  .dropdown-checkbox:checked + .dropdown-label:before {
+      background-color: #333;
+  }
+  
+  .dropdown-label {
+      cursor: pointer;
+  }
+  
+  .dropdown-menu {
+      display: none;
+  }
+  
+  .dropdown-menu.show {
+      display: block;
+  }
+  
     .showcase-title{
       margin-top:50px;
     }
@@ -81,7 +112,13 @@
 
 
   
-
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
 
   <!--
     - HEADER
@@ -101,26 +138,10 @@
             </button>
           </div>
         </form>
-        <ul class="desktop-menu-category-list">
-          <!-- Other navbar items -->
-          <li class="menu-category dropdown">
-              <a href="#" class="menu-title dropdown-toggle">Price</a>
-              <div class="dropdown-menu">
-                  <a href="#" class="dropdown-item">Under $50</a>
-                  <a href="#" class="dropdown-item">$50 - $100</a>
-                  <a href="#" class="dropdown-item">Over $100</a>
-              </div>
-          </li>
-          <li class="menu-category dropdown">
-              <a href="#" class="menu-title dropdown-toggle">Categories</a>
-              <div class="dropdown-menu">
-                  <a href="#" class="dropdown-item">Electronics</a>
-                  <a href="#" class="dropdown-item">Clothing</a>
-                  <a href="#" class="dropdown-item">Accessories</a>
-              </div>
-          </li>
-      </ul>
+
         <div class="header-user-actions">
+
+
           <li class="menu-category">
             {%if request.user.is_authenticated%}
             <a href="{% url 'userauths:userlogout'%}" class="menu-title" style="color:black">Sign-Out</a>
@@ -128,9 +149,11 @@
             <a href="{%url 'userauths:userlogin'%}" class="menu-title" style="color:black">Sign-in</a>
             {% endif %}
           </li>
+
           <button class="action-btn">
-            <ion-icon name="bag-handle-outline"></ion-icon>
-            <span class="count">0</span>
+            <a href="{% url 'core:view_cart' %}" style="color:black;">
+              <ion-icon name="bag-handle-outline"></ion-icon>
+            </a>
           </button>
         </div>
       </div>
@@ -387,6 +410,9 @@
                         <a href="{% url 'core:product_detail' product.pid %}" class="showcase-category">{{ product.category.title }}</a>
                         <a href="{% url 'core:product_detail' product.pid %}">
                             <h3 class="showcase-title" style="color:black;">{{ product.title }}</h3>
+                            <span class="showcase-title" style="color:black;">{{product.price}}</span>
+                            <span class="showcase-title" style="color:black;"><s>{{product.old_price}}</s></span>
+
                         </a>
                         <div class="showcase-rating">
                             <!-- Add your rating logic here -->
@@ -875,30 +901,9 @@
     });
 </script>
 
-<script>
-  // Add JavaScript to toggle the dropdown menu
-  document.addEventListener("DOMContentLoaded", function() {
-      var dropdownToggleList = document.querySelectorAll('.dropdown-toggle');
 
-      dropdownToggleList.forEach(function(dropdownToggle) {
-          dropdownToggle.addEventListener('click', function() {
-              var dropdownMenu = this.nextElementSibling;
-              dropdownMenu.classList.toggle('show');
-          });
-      });
 
-      // Close dropdown menu when clicking outside
-      window.addEventListener('click', function(event) {
-          dropdownToggleList.forEach(function(dropdownToggle) {
-              var dropdownMenu = dropdownToggle.nextElementSibling;
-              if (!dropdownToggle.contains(event.target)) {
-                  dropdownMenu.classList.remove('show');
-              }
-          });
-      });
-  });
-</script>
-
+  
 
 </body>
 

@@ -72,8 +72,9 @@
           <a href="{%url 'userauths:userlogin'%}" class="account" style="color:black">Sign-in</a>
           {% endif %}
           <button class="action-btn">
-            <ion-icon name="bag-handle-outline"></ion-icon>
-            <span class="count">0</span>
+            <a href="{% url 'core:view_cart' %}" style="color:black;">
+              <ion-icon name="bag-handle-outline"></ion-icon>
+            </a>
           </button>
         </div>
       </div>
